@@ -4,10 +4,9 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.textinput import TextInput
 from kivy.properties import StringProperty
 import os
+text = StringProperty('')
+import os
 
-
-current_path = os.path.dirname(__file__)
-file_path = os.path.join(current_path, 'textinput_fle')
 
 class myscreen(Screen):
     
@@ -17,13 +16,17 @@ class myscreen(Screen):
         self.add_widget(self.text_input)
 
     def on_pre_enter(self):
-        with  open(file_path, 'r') as f:
+        with  open('C:\\coding\\text.txt', 'r') as f:
             self.text = f.read()
             self.text_input.text = self.text # Textinput에 파일에서 읽은 대용을 할당한다.
 
     def on_text(self, instance, value):
-        with  open(file_path, 'w') as f:
-            self.text_input.text = f.write(value)
+        with  open("C:\\coding\\text.txt", 'a') as f:
+            f.write(value)
+
+        self.text_input.text = value
+
+
 
 class MyScreenManager(ScreenManager):
     pass
@@ -33,7 +36,15 @@ class MyApp(App):
         sm = MyScreenManager()
         sm.add_widget(myscreen(name= 'my'))
         return sm
+    
+    def on_stop(self):
+        with open("C:\\coding\\text.txt", 'w') as f:
+            f.write(self.root.get_screen('my').text_input.text)
 
 if __name__ == '__main__':
     MyApp().run()
 
+# current_path = os.getcwd()
+# file_path = os.path.join(current_path, 'text.txt')
+
+# print("text.txt의 경로:", file_path)
