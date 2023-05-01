@@ -40,20 +40,20 @@ class Advice(Screen):
         self.text_input = TextInput(text='')
         self.ids.box_layout.add_widget(self.text_input)
 
-        if not os.path.isfile("C:\\venv\\Page\\advice to me"):
-            with open("C:\\venv\\Page\\advice to me", 'w') as f:
+        if not os.path.isfile("C:\\venv\\advice to me"):
+            with open("C:\\venv\\advice to me", 'w') as f:
                 f.write('')
 
-        with open("C:\\venv\\Page\\advice to me", 'r') as f:
+        with open("C:\\venv\\advice to me", 'r') as f:
             self.text = f.read()
             self.text_input.text = self.text
 
     def on_text(self, instance, value):
-        with open("C:\\venv\\Page\\advice to me", 'a') as f:
+        with open("C:\\venv\\advice to me", 'a') as f:
             f.write(value)
     
     def on_leave(self):
-        with open("C:\\venv\\Page\\advice to me", 'w') as f:
+        with open("C:\\venv\\advice to me", 'w') as f:
             f.write(self.text_input.text)
 
     
@@ -131,6 +131,11 @@ class Metamong(Screen):
         self.ids.grid_layout.clear_widgets()
         self.tpt = TextInput(text = '', font_size = 20, pos = (0,0), size_hint = (1, 1))
         self.ids.grid_layout.add_widget(self.tpt)
+
+
+        if not os.path.isdir("C:\\venv\\Page"):
+            os.makedirs("Page")
+
         if not os.path.isfile(f"C:\\venv\\Page\\{self.num} day"):
             with open(f"C:\\venv\\Page\\{self.num} day", 'w') as f:
                 f.write('')
@@ -195,6 +200,9 @@ class Goals_2(Screen):
         self.tpt = TextInput(text = '', font_size = 20 )
         self.ids.box_layout.add_widget(label)
         self.ids.box_layout.add_widget(self.tpt)
+
+        if not os.path.isdir("C:\\venv\Goals"):
+            os.makedirs("Goals")
 
         if not os.path.isfile(f"C:\\venv\Goals\\{self.title} goals"):
             with open(f"C:\\venv\Goals\\{self.title} goals", 'w') as f:
@@ -601,7 +609,7 @@ class MyApp(App):
     def on_stop(self):
         advice_screen = self.root.get_screen('advice')
         if advice_screen.text_input is not None and advice_screen.text_input.text:
-            with open("C:\\venv\\Page\\advice to me", 'w') as f:
+            with open("C:\\venv\\advice to me", 'w') as f:
                 f.write(advice_screen.text_input.text)
 
         page_name = self.page_name # page_name에 입력이 있을 때만 실행하도록
